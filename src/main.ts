@@ -2,7 +2,7 @@ import { getEnvVariables } from '@/env';
 import { createApp } from 'vue';
 import App from './App.vue';
 import './registerServiceWorker';
-import { createApi } from '@/plugins/api';
+import { createHttp } from '@vuebits/http';
 import { createBem } from '@vuebits/bem';
 import router from './router';
 import store from './store';
@@ -13,7 +13,7 @@ import store from './store';
   } = await getEnvVariables();
   const app = createApp(App);
   app
-    .use(createApi({ baseURL: API_URL }))
+    .use(createHttp({ baseURL: API_URL }))
     .use(createBem({ hyphenate: true }))
     .use(store)
     .use(router)

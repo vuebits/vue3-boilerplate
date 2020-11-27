@@ -61,7 +61,7 @@ export default defineComponent({
     };
   },
   async created () {
-    this.users = (await this.$api.get<{data: User[]}>(URI_USERS)).data.data;
+    this.users = (await this.$http.get<{data: User[]}>(URI_USERS)).data.data;
   }
 });
 </script>
