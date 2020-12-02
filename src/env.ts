@@ -1,4 +1,21 @@
-import { Api } from '@/api';
+function getJSON (url: string): any {
+  return new Promise(function (resolve, reject) {
+    const req = new XMLHttpRequest();
+    req.open('GET', url);
+
+    req.onload = function () {
+      if (req.status === 200) {
+        resolve(JSON.parse(req.response));
+      } else {
+        reject(Error(req.statusText));
+      }
+    };
+    req.onerror = function () {
+      reject(Error('Network Error'));
+    };
+    req.send();
+  });
+}
 
 export interface EnvConfig {
   API_URL: string;
@@ -14,9 +31,8 @@ export const getEnvVariables = async () => {
     SENTRY_DSN: null,
     GTM_ID: null
   };
-  const api = new Api({});
   try {
-    envConfig = (await api.get<EnvConfig>('/env.json')).data;
+    envConfig = (await getJSON('/env.json'));
   } catch (e) {}
   return envConfig;
 };
